@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adm:package name="org.forgerock.opendj.server.config"
+             xmlns:adm="http://opendj.forgerock.org/admin"
+             xmlns:ldap="http://opendj.forgerock.org/admin-ldap">
+    <adm:synopsis>Plugins written for OpenDJ</adm:synopsis>
+</adm:package>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  The contents of this file are subject to the terms of the Common Development and
+  Distribution License (the License). You may not use this file except in compliance with the
+  License.
+
+  You can obtain a copy of the License at legal/CDDLv1.0.txt. See the License for the
+  specific language governing permission and limitations under the License.
+
+  When distributing Covered Software, include this CDDL Header Notice in each file and include
+  the License file at legal/CDDLv1.0.txt. If applicable, add the following below the CDDL
+  Header, with the fields enclosed by brackets [] replaced by your own identifying
+  information: "Portions Copyright [year] [name of copyright owner]".
+
+  Copyright 2016 ForgeRock AS.
+-->
+<adm:managed-object name="search-and-delete-extended-operation-handler"
+                    plural-name="search-and-delete-extended-operation-handler"
+                    package="org.forgerock.opendj.server.config"
+                    extends="extended-operation-handler"
+                    xmlns:adm="http://opendj.forgerock.org/admin"
+                    xmlns:ldap="http://opendj.forgerock.org/admin-ldap">
+    <adm:synopsis>
+        The
+        <adm:user-friendly-name/>
+        provides the ability for clients delete all directory entries that matches the provided search filter.
+    </adm:synopsis>
+    <adm:profile name="ldap">
+        <ldap:object-class>
+            <ldap:name>ds-cfg-search-and-delete-extended-operation-handler</ldap:name>
+            <ldap:superior>ds-cfg-extended-operation-handler</ldap:superior>
+        </ldap:object-class>
+    </adm:profile>
+    <adm:property-override name="java-class" advanced="true">
+        <adm:default-behavior>
+            <adm:defined>
+                <adm:value>
+                    org.forgerock.opendj.server.config.SearchAndDeleteExtendedOperation
+                </adm:value>
+            </adm:defined>
+        </adm:default-behavior>
+    </adm:property-override>
+    <adm:property name="thread-pool-size" mandatory="true">
+        <adm:synopsis>
+            Specifies the number of threads on which the
+            <adm:user-friendly-name />
+            will carry out the token deletions. Each extended operation will use this shared thread pool within the
+            OpenDJ instance.
+        </adm:synopsis>
+        <adm:description>
+            The size of the thread pool that is used to concurrently delete the matched entries.
+        </adm:description>
+        <adm:requires-admin-action>
+            <adm:component-restart />
+        </adm:requires-admin-action>
+        <adm:syntax>
+            <adm:integer lower-limit="1" upper-limit="65535" />
+        </adm:syntax>
+        <adm:profile name="ldap">
+            <ldap:attribute>
+                <ldap:name>ds-cfg-thread-pool-size</ldap:name>
+            </ldap:attribute>
+        </adm:profile>
+    </adm:property>
+</adm:managed-object>

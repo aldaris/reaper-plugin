@@ -1,0 +1,8 @@
+dn: cn=Search and Delete,cn=Extended Operations,cn=config
+objectClass: ds-cfg-extended-operation-handler
+objectClass: ds-cfg-search-and-delete-extended-operation-handler
+objectClass: top
+ds-cfg-java-class: org.forgerock.opendj.server.config.SearchAndDeleteExtendedOperation
+cn: Search and Delete
+ds-cfg-enabled: true
+ds-cfg-thread-pool-size: 25
