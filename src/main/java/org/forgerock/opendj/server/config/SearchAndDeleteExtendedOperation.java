@@ -33,14 +33,12 @@ import org.forgerock.opendj.server.config.server.SearchAndDeleteExtendedOperatio
 import org.opends.server.api.ExtendedOperationHandler;
 import org.opends.server.core.ExtendedOperation;
 import org.opends.server.protocols.internal.InternalClientConnection;
-import org.opends.server.protocols.internal.InternalSearchListener;
 import org.opends.server.protocols.internal.InternalSearchOperation;
 import org.opends.server.protocols.internal.Requests;
 import org.opends.server.protocols.internal.SearchRequest;
 import org.opends.server.types.AuthenticationInfo;
 import org.opends.server.types.DirectoryException;
 import org.opends.server.types.SearchResultEntry;
-import org.opends.server.types.SearchResultReference;
 
 public class SearchAndDeleteExtendedOperation
         extends ExtendedOperationHandler<SearchAndDeleteExtendedOperationHandlerCfg> {
@@ -104,20 +102,10 @@ public class SearchAndDeleteExtendedOperation
                         SearchScope.WHOLE_SUBTREE, searchFilter.toString());
                 searchRequest.addAttribute("1.1");
                 searchRequest.setSizeLimit(500);
-                final InternalSearchOperation searchOperation = connection.processSearch(searchRequest,
-                        new InternalSearchListener() {
-                    @Override
-                    public void handleInternalSearchEntry(InternalSearchOperation iso, SearchResultEntry entry)
-                            throws DirectoryException {
-                        matches.incrementAndGet();
-                        connection.processDelete(entry.getName());
-                    }
-
-                    @Override
-                    public void handleInternalSearchReference(InternalSearchOperation iso,
-                            SearchResultReference reference) throws DirectoryException {
-                    }
-                });
+                final InternalSearchOperation searchOperation = connection.processSearch(searchRequest);
+                for (SearchResultEntry entry : searchOperation.getSearchEntries()) {
+                    connection.processDelete(entry.getName());
+                }
                 ResultCode resultCode = searchOperation.getResultCode();
                 if (ResultCode.SUCCESS.equals(resultCode)) {
                     break;
