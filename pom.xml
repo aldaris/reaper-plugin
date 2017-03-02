@@ -26,7 +26,7 @@
     <properties>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
-        <opendj.version>3.5.1</opendj.version>
+        <opendj.version>3.5.2-SNAPSHOT</opendj.version>
     </properties>
 
     <repositories>
